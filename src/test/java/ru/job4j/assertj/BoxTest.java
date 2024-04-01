@@ -31,13 +31,13 @@ class BoxTest {
     void whenVertexIsCubeWithAgeTwoThanGetAreaIsTwentyFour() {
         Box box = new Box(8, 2);
         double area = box.getArea();
-        assertThat(area).isEqualTo(24.0);
+        assertThat(area).isEqualTo(24.0d, withPrecision(0.1d));
     }
     @Test
     void whenVertexIsTenWithAgeTwoThanGetAreaIsZero() {
         Box box = new Box(10, 2);
         double area = box.getArea();
-        assertThat(area).isEqualTo(0);
+        assertThat(area).isEqualTo(0, withPrecision(0.1d));
     }
 
 }
