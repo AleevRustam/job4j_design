@@ -20,10 +20,6 @@ public class SimpleQueue<T> {
                 outputCount++;
             }
         }
-
-        if (outputCount == 0 && inputCount == 0) {
-            throw new NoSuchElementException("Queue is empty");
-        }
         T value = output.pop();
         outputCount--;
         return value;
