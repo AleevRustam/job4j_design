@@ -23,6 +23,7 @@ public class SimpleTree<E> implements Tree<E> {
                 parentNode.children.add(new Node<>(child));
                 isAdded = true;
             }
+
         }
         return isAdded;
     }
