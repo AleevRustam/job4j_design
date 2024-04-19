@@ -14,18 +14,17 @@ public class SimpleTree<E> implements Tree<E> {
 
     @Override
     public boolean add(E parent, E child) {
+        boolean isAdded = false;
         Optional<Node<E>> parentOptional = findBy(parent);
         Optional<Node<E>> childOptional = findBy(child);
         if (parentOptional.isPresent() && childOptional.isEmpty()) {
             Node<E> parentNode = parentOptional.get();
             if (parentNode.children.stream().noneMatch((node) -> node.value.equals(child))) {
                 parentNode.children.add(new Node<>(child));
-                return true;
+                isAdded = true;
             }
-
         }
-        return false;
-
+        return isAdded;
     }
 
     @Override
