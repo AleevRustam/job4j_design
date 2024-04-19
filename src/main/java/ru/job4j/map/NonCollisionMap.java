@@ -24,15 +24,14 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         }
         int hash = hash(Objects.hashCode(key));
         int index = indexFor(hash);
+        boolean isPut = false;
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
-            return true;
-        } else if (Objects.equals(table[index].key, key)) {
-            return false;
+            isPut = true;
         }
-        return false;
+        return isPut;
     }
 
     private int hash(int hashCode) {
@@ -70,13 +69,14 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     public boolean remove(K key) {
         int hash = hash(Objects.hashCode(key));
         int index = indexFor(hash);
+        boolean isRemoved = false;
         if (table[index] != null && Objects.equals(table[index].key, key)) {
             table[index] = null;
             count--;
             modCount++;
-            return true;
+            isRemoved = true;
         }
-        return false;
+        return isRemoved;
     }
 
     @Override
