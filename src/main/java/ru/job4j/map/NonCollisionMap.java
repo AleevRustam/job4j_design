@@ -22,16 +22,18 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         if (count >= capacity * LOAD_FACTOR) {
             expand();
         }
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
         boolean isPut = false;
-        if (table[index] == null) {
-            table[index] = new MapEntry<>(key, value);
+        if (table[getIndex(key)] == null) {
+            table[getIndex(key)] = new MapEntry<>(key, value);
             count++;
             modCount++;
             isPut = true;
         }
         return isPut;
+    }
+
+    private int getIndex(K key) {
+        return indexFor(hash(Objects.hashCode(key)));
     }
 
     private int hash(int hashCode) {
@@ -47,9 +49,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         MapEntry<K, V>[] newTable = new MapEntry[capacity];
         for (MapEntry<K, V> entry : table) {
             if (entry != null) {
-                int newHash = hash(Objects.hashCode(entry.key));
-                int index = indexFor(newHash);
-                newTable[index] = entry;
+                newTable[getIndex(entry.key)] = entry;
             }
         }
         table = newTable;
@@ -57,20 +57,19 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
 
     @Override
     public V get(K key) {
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
-        if (table[index] != null && Objects.equals(table[index].key, key)) {
-            return table[index].value;
-        }
-        return null;
+        int index = getIndex(key);
+        return isaBoolean(key, index) ? table[index].value : null;
+    }
+
+    private boolean isaBoolean(K key, int index) {
+        return table[index] != null && Objects.equals(table[index].key, key);
     }
 
     @Override
     public boolean remove(K key) {
-        int hash = hash(Objects.hashCode(key));
-        int index = indexFor(hash);
         boolean isRemoved = false;
-        if (table[index] != null && Objects.equals(table[index].key, key)) {
+        int index = getIndex(key);
+        if (isaBoolean(key, index)) {
             table[index] = null;
             count--;
             modCount++;
