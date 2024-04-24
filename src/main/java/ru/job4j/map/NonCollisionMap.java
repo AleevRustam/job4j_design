@@ -23,8 +23,10 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
             expand();
         }
         boolean isPut = false;
-        if (table[getIndex(key)] == null) {
-            table[getIndex(key)] = new MapEntry<>(key, value);
+        MapEntry<K, V> entry = table[getIndex(key)];
+        int index = getIndex(key);
+        if (table[index] == null) {
+            table[index] = new MapEntry<>(key, value);
             count++;
             modCount++;
             isPut = true;
@@ -62,7 +64,19 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     }
 
     private boolean isaBoolean(K key, int index) {
-        return table[index] != null && Objects.equals(table[index].key, key);
+        boolean result = false;
+        MapEntry<K, V> entry = table[index];
+        if (entry != null && key == null && entry.key == null) {
+            result = true;
+        }
+        if (entry != null
+                && key != null
+                && entry.key != null
+                && key.hashCode() == entry.key.hashCode()
+                && Objects.equals(key, entry.key)) {
+            return true;
+        }
+        return result;
     }
 
     @Override
@@ -104,27 +118,12 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-
-                if (expectedModCount != modCount) {
-                    throw new ConcurrentModificationException();
-                }
-
                 if (nextNullIndex != -1) {
                     currentIndex = nextNullIndex;
                     nextNullIndex = findNextNullIndex(nextNullIndex + 1);
                     return null;
                 }
-
-                while (currentIndex < table.length
-                        && (table[currentIndex] == null || table[currentIndex].key == null)) {
-                    currentIndex++;
-                }
-
-                if (currentIndex < table.length) {
-                    return table[currentIndex++].key;
-                }
-
-                throw new NoSuchElementException();
+                return table[currentIndex++].key;
             }
 
             private int findNextNullIndex(int start) {
