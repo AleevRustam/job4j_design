@@ -23,7 +23,6 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
             expand();
         }
         boolean isPut = false;
-        MapEntry<K, V> entry = table[getIndex(key)];
         int index = getIndex(key);
         if (table[index] == null) {
             table[index] = new MapEntry<>(key, value);
@@ -60,30 +59,20 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     @Override
     public V get(K key) {
         int index = getIndex(key);
-        return isaBoolean(key, index) ? table[index].value : null;
+        return isKeyMatched(key, index) ? table[index].value : null;
     }
 
-    private boolean isaBoolean(K key, int index) {
-        boolean result = false;
+    private boolean isKeyMatched(K key, int index) {
         MapEntry<K, V> entry = table[index];
-        if (entry != null && key == null && entry.key == null) {
-            result = true;
-        }
-        if (entry != null
-                && key != null
-                && entry.key != null
-                && key.hashCode() == entry.key.hashCode()
-                && Objects.equals(key, entry.key)) {
-            return true;
-        }
-        return result;
+        return entry != null
+                && (Objects.equals(key, entry.key));
     }
 
     @Override
     public boolean remove(K key) {
         boolean isRemoved = false;
         int index = getIndex(key);
-        if (isaBoolean(key, index)) {
+        if (isKeyMatched(key, index)) {
             table[index] = null;
             count--;
             modCount++;
@@ -96,7 +85,6 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     public Iterator<K> iterator() {
         return new Iterator<>() {
             private int currentIndex;
-            private int nextNullIndex = findNextNullIndex(0);
             private int expectedModCount = modCount;
 
             @Override
@@ -105,11 +93,9 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
                     throw new ConcurrentModificationException();
                 }
 
-                while (currentIndex < table.length
-                        && (table[currentIndex] == null || table[currentIndex].key == null)) {
+                while (currentIndex < table.length && (table[currentIndex] == null)) {
                     currentIndex++;
                 }
-
                 return currentIndex < table.length;
             }
 
@@ -118,21 +104,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                if (nextNullIndex != -1) {
-                    currentIndex = nextNullIndex;
-                    nextNullIndex = findNextNullIndex(nextNullIndex + 1);
-                    return null;
-                }
                 return table[currentIndex++].key;
-            }
-
-            private int findNextNullIndex(int start) {
-                for (int i = start; i < table.length; i++) {
-                    if (table[i] != null && table[i].key == null) {
-                        return i;
-                    }
-                }
-                return -1;
             }
         };
     }
