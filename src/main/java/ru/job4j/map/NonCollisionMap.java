@@ -65,8 +65,7 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
     private boolean isKeyMatched(K key, int index) {
         MapEntry<K, V> entry = table[index];
         return entry != null
-                && ((key == null && entry.key == null)
-                        || (key != null && entry.key != null && key.hashCode() == entry.key.hashCode()))
+                && (key != null && entry.key != null && Objects.equals(key.hashCode(), entry.key.hashCode()))
                 && (Objects.equals(key, entry.key));
     }
 
