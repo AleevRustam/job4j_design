@@ -33,17 +33,17 @@ public class NonCollisionMap<K, V> implements SimpleMap<K, V> {
         return isPut;
     }
 
-private int getIndex(K key) {
-    return Objects.isNull(key) ? 0 : indexFor(hash(Objects.hashCode(key)));
-}
+    private int getIndex(K key) {
+        return indexFor(hash(Objects.hashCode(key)));
+    }
 
     private int hash(int hashCode) {
         return hashCode ^ (hashCode >>> 16);
     }
 
-private int indexFor(int hash) {
-    return Objects.isNull(hash) ? 0 : hash & (capacity - 1);
-}
+    private int indexFor(int hash) {
+        return hash & (capacity - 1);
+    }
 
     private void expand() {
         capacity = capacity * 2;
@@ -62,10 +62,24 @@ private int indexFor(int hash) {
         return isKeyMatched(key, index) ? table[index].value : null;
     }
 
+
+    private V getForNullKey() {
+        for (MapEntry<K, V> entry : table) {
+            if (entry != null && entry.key == null) {
+                return entry.value;
+            }
+        }
+        return null;
+    }
+
+    private int keyHashCode(K key) {
+        return key == null ? 0 : key.hashCode();
+    }
+
     private boolean isKeyMatched(K key, int index) {
         MapEntry<K, V> entry = table[index];
         return entry != null
-                && (key == null ? entry.key == null : entry.key != null && key.hashCode() == entry.key.hashCode())
+                && keyHashCode(key) == keyHashCode(entry.key)
                 && Objects.equals(key, entry.key);
 
     }
