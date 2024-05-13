@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 
 public class LogFilter {
     private final String file;
+    private final String regEx = "^(?:[^ ]* ){7}[^ ]* (404) [^ ]*$";
 
     public LogFilter(String file) {
         this.file = file;
@@ -17,8 +18,7 @@ public class LogFilter {
     public List<String> filter() {
         List<String> result = new ArrayList<>();
         try (BufferedReader input = new BufferedReader(new FileReader("data/log.txt"))) {
-
-           result = input.lines().filter(s -> s.contains(" 404 ")).collect(Collectors.toList());
+            result = input.lines().filter(s -> s.matches(regEx)).collect(Collectors.toList());
         } catch (IOException e) {
             e.printStackTrace();
         }
