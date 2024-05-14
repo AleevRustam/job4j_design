@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Analysis {
-    public void unavailable(String source, String target) {
+    public static void unavailable(String source, String target) {
         List<String> logs = new ArrayList<>();
         boolean notWorked = false;
         StringBuilder result = new StringBuilder();
@@ -44,16 +44,16 @@ public class Analysis {
         }
     }
 
-    private String[] stringSplit(String string) {
+    private static String[] stringSplit(String string) {
         return string.split(" ");
     }
 
-    private boolean isWorking(String string) {
+    private static boolean isWorking(String string) {
         return string.equals("200") || string.equals("300");
     }
 
     public static void main(String[] args) {
         Analysis analysis = new Analysis();
-        analysis.unavailable("data/server.log", "data/target.csv");
+        unavailable("data/server.log", "data/target.csv");
     }
 }
