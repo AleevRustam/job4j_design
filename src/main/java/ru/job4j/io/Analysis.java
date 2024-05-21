@@ -12,7 +12,7 @@ public class Analysis {
             String startTime = null;
             String line;
 
-            while ((line =input.readLine()) != null) {
+            while ((line = input.readLine()) != null) {
                 if (!line.startsWith("200") && !line.startsWith("300")) {
                     if (!serverDone) {
                         serverDone = true;
