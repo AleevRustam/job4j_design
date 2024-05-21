@@ -3,6 +3,7 @@ package ru.job4j.io;
 import java.io.*;
 
 public class Analysis {
+
     public static void unavailable(String source, String target) {
         try (BufferedReader input = new BufferedReader(new FileReader(source));
              PrintWriter output = new PrintWriter(new FileWriter(target))) {
@@ -11,20 +12,16 @@ public class Analysis {
             String startTime = null;
             String line;
 
-            while ((line = input.readLine()) != null) {
-                String[] parts = line.split(" ");
-                String status = parts[0];
-                String time = parts[1];
-
-                if (!isWorking(status)) {
+            while ((line =input.readLine()) != null) {
+                if (!line.startsWith("200") && !line.startsWith("300")) {
                     if (!serverDone) {
                         serverDone = true;
-                        startTime = time;
+                        startTime = line.split(" ")[1];
                     }
                 } else {
                     if (serverDone) {
                         serverDone = false;
-                        output.printf("%s;%s;%n", startTime, time);
+                        output.printf("%s;%s;%n", startTime, line.split(" ")[1]);
                     }
                 }
             }
@@ -32,9 +29,6 @@ public class Analysis {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    private static boolean isWorking(String string) {
-        return string.equals("200") || string.equals("300");
     }
 
     public static void main(String[] args) {
