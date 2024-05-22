@@ -13,16 +13,10 @@ public class Analysis {
             String line;
 
             while ((line = input.readLine()) != null) {
-                if (!line.startsWith("200") && !line.startsWith("300")) {
-                    if (!serverDone) {
-                        serverDone = true;
-                        startTime = line.split(" ")[1];
-                    }
-                } else {
-                    if (serverDone) {
-                        serverDone = false;
-                        output.printf("%s;%s;%n", startTime, line.split(" ")[1]);
-                    }
+                if ((!line.split(" ")[0].equals("200") && !line.split(" ")[0].equals("300")) == !serverDone) {
+                    output.printf(serverDone ? "%s;%s;%n" : "", startTime, line.split(" ")[1]);
+                    serverDone = !serverDone;
+                    startTime = serverDone ? line.split(" ")[1] : null;
                 }
             }
 
