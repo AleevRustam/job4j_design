@@ -11,12 +11,14 @@ public class Analysis {
             boolean serverDone = false;
             String startTime = null;
             String line;
+            String[] parts;
 
             while ((line = input.readLine()) != null) {
-                if ((!line.split(" ")[0].equals("200") && !line.split(" ")[0].equals("300")) == !serverDone) {
-                    output.printf(serverDone ? "%s;%s;%n" : "", startTime, line.split(" ")[1]);
+                parts = line.split(" ");
+                if ((!"200".equals(parts[0]) && !"300".equals(parts[0])) == !serverDone) {
+                    output.printf(serverDone ? "%s;%s;%n" : "", startTime, parts[1]);
                     serverDone = !serverDone;
-                    startTime = serverDone ? line.split(" ")[1] : null;
+                    startTime = serverDone ? parts[1] : null;
                 }
             }
 
