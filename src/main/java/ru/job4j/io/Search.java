@@ -17,17 +17,17 @@ public class Search {
     private static void isValid(String[] args) {
         if (args.length < 2) {
             throw new IllegalArgumentException("Need two arguments: start folder and file extension");
-        } else {
-            Path startDirectory = Paths.get(args[0]);
-            if (!Files.exists(startDirectory)
-                    || !Files.isDirectory(startDirectory)
-                    || !Files.isReadable(startDirectory)) {
-                throw new IllegalArgumentException("Error: first argument must be a start folder");
-            }
-            if (!args[1].matches("\\\\.[A-Za-z0-9]{1,3}")) {
-                throw new IllegalArgumentException("Error: second argument must be a file extension");
-            }
         }
+        Path startDirectory = Paths.get(args[0]);
+        if (!Files.exists(startDirectory)
+                || !Files.isDirectory(startDirectory)
+                || !Files.isReadable(startDirectory)) {
+            throw new IllegalArgumentException("Error: first argument must be a start folder");
+        }
+        if (!args[1].matches("\\.[A-Za-z0-9]{1,3}")) {
+            throw new IllegalArgumentException("Error: second argument must be a file extension");
+        }
+
     }
 
     public static List<Path> search(Path root, Predicate<Path> condition) throws IOException {
