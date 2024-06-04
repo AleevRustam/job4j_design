@@ -11,11 +11,10 @@ public class ArgsName {
 
 
     public String get(String key) {
-        if (values.containsKey(key)) {
-            return values.get(key);
-        } else {
+        if (!values.containsKey(key)) {
             throw new IllegalArgumentException("This key: '" + key + "' is missing");
         }
+        return values.get(key);
     }
 
     private void parse(String[] args) {
@@ -30,9 +29,7 @@ public class ArgsName {
         Pattern pattern = Pattern.compile(regEx);
         Matcher matcher = pattern.matcher(arg);
 
-        if (matcher.matches()) {
-            return new String[]{matcher.group(1), matcher.group(2)};
-        } else {
+        if (!matcher.matches()) {
             if (!arg.startsWith("-")) {
                 throw new IllegalArgumentException("Error: This argument '" + arg + "' does not start with a '-' character");
             }
@@ -48,17 +45,17 @@ public class ArgsName {
             }
             return parts;
         }
+
+        return new String[]{matcher.group(1), matcher.group(2)};
     }
 
     public static ArgsName of(String[] args) {
-        if (args.length > 0) {
-            ArgsName names = new ArgsName();
-            names.parse(args);
-            return names;
-        } else {
+        if (!(args.length > 0)) {
             throw new IllegalArgumentException("Arguments not passed to program");
         }
-
+        ArgsName names = new ArgsName();
+        names.parse(args);
+        return names;
     }
 
     public static void main(String[] args) {
