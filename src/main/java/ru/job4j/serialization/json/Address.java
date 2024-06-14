@@ -1,7 +1,16 @@
 package ru.job4j.serialization.json;
 
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+
+@XmlRootElement(name = "address")
 public class Address {
-    private final String city;
+
+    @XmlAttribute
+    private String city;
+
+    public Address() {
+    }
 
     public Address(String city) {
         this.city = city;
