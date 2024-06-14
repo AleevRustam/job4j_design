@@ -27,23 +27,5 @@ public class Main {
             Student result = (Student) unmarshaller.unmarshal(reader);
             System.out.println(result);
         }
-
-        /*final Gson gson = new GsonBuilder().create();
-        System.out.println(gson.toJson(student));
-
-        final String studentJson =
-                "{"
-                        + "\"sex\":true,"
-                        + "\"level\":3,"
-                        + "\"address\":"
-                        + "{"
-                        + "\"city\":\"Moscow\""
-                        + "},"
-                        + "\"subjects\":"
-                        + "[\"Math\",\"Chemistry\"]"
-                        + "}";
-
-        final Student studentMod = gson.fromJson(studentJson, Student.class);
-        System.out.println(studentMod);*/
     }
 }
