@@ -28,6 +28,22 @@ public class Student {
         this.subjects = subjects;
     }
 
+    public boolean getSex() {
+        return sex;
+    }
+
+    public int getLevel() {
+        return level;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public String[] getSubjects() {
+        return subjects;
+    }
+
     @Override
     public String toString() {
         return "sex:" + sex

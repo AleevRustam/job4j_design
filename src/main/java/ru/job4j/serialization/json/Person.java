@@ -1,13 +1,12 @@
 package ru.job4j.serialization.json;
 
-import javax.xml.bind.JAXBContext;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 import javax.xml.bind.annotation.*;
-import java.io.StringReader;
-import java.io.StringWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @XmlRootElement(name = "person")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -34,6 +33,22 @@ public class Person {
         this.statuses = statuses;
     }
 
+    public boolean getSex() {
+        return sex;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public String[] getStatuses() {
+        return statuses;
+    }
+
     @Override
     public String toString() {
         return "Person{"
@@ -46,22 +61,20 @@ public class Person {
 
     public static void main(String[] args) throws JAXBException {
         final Person person = new Person(false, 30, new Contact("11-111"), "Worker", "Married");
+        JSONObject jsonContact = new JSONObject("{\"phone\":\"+7(924)111-11-11\"}");
 
-        JAXBContext context = JAXBContext.newInstance(Person.class);
-        Marshaller marshaller = context.createMarshaller();
-        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-        String xml = "";
-        try (StringWriter writer = new StringWriter()) {
-            marshaller.marshal(person, writer);
-            xml = writer.getBuffer().toString();
-            System.out.println(xml);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        Unmarshaller unmarshaller = context.createUnmarshaller();
-        try (StringReader reader = new StringReader(xml)) {
-            Person result = (Person) unmarshaller.unmarshal(reader);
-            System.out.println(result);
-        }
+        List<String> list = new ArrayList<>();
+        list.add("Student");
+        list.add("Free");
+        JSONArray jsonStatuses = new JSONArray(list);
+
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("sex", person.getSex());
+        jsonObject.put("age", person.getAge());
+        jsonObject.put("contact", jsonContact);
+        jsonObject.put("statuses", jsonStatuses);
+        System.out.println(jsonObject.toString());
+
+        System.out.println(new JSONObject(person).toString());
     }
 }
