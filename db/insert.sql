@@ -18,15 +18,14 @@ INSERT INTO states(name, item_id) VALUES ('State 1', 1);
 INSERT INTO states(name, item_id) VALUES ('State 2', 2);
 INSERT INTO states(name, item_id) VALUES ('State 3', 3);
 
-INSERT INTO users(name, item_id) VALUES ('User 1', 1);
-INSERT INTO users(name, item_id) VALUES ('User 2', 2);
-INSERT INTO users(name, item_id) VALUES ('User 3', 3);
-
 INSERT INTO roles(name) VALUES ('Role 1');
 INSERT INTO roles(name) VALUES ('Role 2');
 INSERT INTO roles(name) VALUES ('Role 3');
 
+INSERT INTO users(name, item_id, role_id) VALUES ('User 1', 1, 1);
+INSERT INTO users(name, item_id, role_id) VALUES ('User 2', 2, 2);
+INSERT INTO users(name, item_id, role_id) VALUES ('User 3', 3, 3);
+
 INSERT INTO rules(name, role_id) VALUES ('Rule 1', 1);
 INSERT INTO rules(name, role_id) VALUES ('Rule 2', 2);
 INSERT INTO rules(name, role_id) VALUES ('Rule 3', 3);
-

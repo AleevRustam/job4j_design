@@ -27,17 +27,16 @@ CREATE TABLE states(
 	item_id int REFERENCES items(id)
 );
 
+CREATE TABLE roles(
+	id serial primary key,
+	name varchar(255)
+);
 
 CREATE TABLE users(
 	id serial primary key,
 	name varchar(255),
-	item_id int REFERENCES items(id)
-);
-
-CREATE TABLE roles(
-	id serial primary key,
-	name varchar(255),
-	user_id int REFERENCES users(id)
+	item_id int REFERENCES items(id),
+	role_id int REFERENCES roles(id)
 );
 
 CREATE TABLE rules(
