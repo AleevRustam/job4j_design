@@ -3,13 +3,18 @@ CREATE TABLE roles(
 	name varchar(255)
 );
 
-CREATE TABLE users(
+CREATE TABLE rules(
 	id serial primary key,
-	name varchar(255),
-	role_id INT REFERENCES roles(id)
+	name varchar(255)
 );
 
-CREATE TABLE rules(
+CREATE TABLE roles_rules(
+    id serial primary key,
+    role_id INT REFERENCES roles(id),
+    rule_id INT REFERENCES rules(id)
+);
+
+CREATE TABLE users(
 	id serial primary key,
 	name varchar(255),
 	role_id INT REFERENCES roles(id)
