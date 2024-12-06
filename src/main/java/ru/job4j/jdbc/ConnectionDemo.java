@@ -5,18 +5,6 @@ import java.sql.*;
 import java.util.StringJoiner;
 
 public class ConnectionDemo {
-//    private static Connection getConnection() throws Exception {
-//        Config config = new Config("app.properties");
-//        config.load();
-//
-//        String driver = config.value("driver");
-//        String url = config.value("url");
-//        String login = config.value("login");
-//        String password = config.value("password");
-//
-//        Class.forName(driver);
-//        return DriverManager.getConnection(url, login, password);
-//    }
 
     private static Connection getConnection() throws Exception {
         Class.forName("org.postgresql.Driver");

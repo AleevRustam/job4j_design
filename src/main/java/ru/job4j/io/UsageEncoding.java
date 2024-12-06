@@ -35,12 +35,7 @@ public class UsageEncoding {
                 "Новая строка 4",
                 "Новая строка 5"
         );
-//        for (String string : strings) {
-//            encoding.writeDataInFile(path, string);
-//        }
-//        String string = encoding.readFile(path);
-//        System.out.println("Данные из файла: ");
-//        System.out.println(string);
+
         encoding.writeDataInFile(path, strings);
     }
 }
