@@ -37,7 +37,7 @@ public class CSVReader {
             }
         }
 
-        /* build thr output */
+        /* build output */
         StringBuilder builder = new StringBuilder();
         for (String[] words : lines) {
             builder.append(getStringJoiner(indexes, words, delimiter)).append(System.lineSeparator());

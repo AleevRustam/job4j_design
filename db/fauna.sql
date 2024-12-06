@@ -18,7 +18,8 @@ insert into fauna(name, avg_age, discovery_date) values ('Grouper', 9, '2020-11-
 insert into fauna(name, avg_age, discovery_date) values ('Clownfish', 20, '1800-01-01');
 insert into fauna(name, avg_age, discovery_date) values ('Clownfish', 11000, '1800-01-01');
 
-select * from fauna where name like '%fish%';
+select * from fauna where name like '%fish%'
+
 
 select * from fauna where fauna.avg_age between 10000 and 21000;
 

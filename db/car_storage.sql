@@ -53,3 +53,4 @@ SELECT ct.name AS transmission_name
 FROM car_transmissions ct
     LEFT JOIN cars c ON ct.id = c.transmission_id
 WHERE c.id is null;
+
